@@ -104,5 +104,4 @@ deploy:
   type: git
   repo: https://github.com/TianZhiZhang1999/NicholasZhi.github.io.git
   brach: main
-  token: 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
 
