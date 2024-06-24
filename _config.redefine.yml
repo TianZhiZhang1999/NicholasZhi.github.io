@@ -113,8 +113,8 @@ home_banner:
   style: fixed # static or fixed
   # Home banner image
   image:
-    light: /images/wallhaven-kw83d7_3840x2400-light.webp # light mode
-    dark: /images/wallhaven-4oy7jl_3840x2400-dark.webp # dark mode
+    light: /images/wallhaven-kw83d7-light.webp # light mode
+    dark: /images/wallhaven-4oy7jl-dark.webp # dark mode
   # Home banner title
   title: Baymax The Republic
   # Home banner subtitle
