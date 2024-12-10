@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Baymax">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2024/11/07/doris3-0特性/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="doris3.0特性Doris 3.0 面向云原生的湖仓一体解决方案从存算一体到存算分离之前版本的doris的架构师存算一体的架构，部署简单，仅仅是fe和be的进程，FE和BE都可以单独扩容，并且不依赖其他的共享存储系统，计算节点也可以直接访问本地存储不占用带宽资源 那么我们为什么要进行存算分离呢？ 有以下几点原因：  首先低成本和资源弹性：  计算和存储的资源解绑了，可以单独对一部分进行扩容 根">
+<meta property="og:type" content="article">
+<meta property="og:title" content="doris3.0特性">
+<meta property="og:url" content="http://example.com/2024/11/07/doris3-0%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="redefine">
+<meta property="og:description" content="doris3.0特性Doris 3.0 面向云原生的湖仓一体解决方案从存算一体到存算分离之前版本的doris的架构师存算一体的架构，部署简单，仅仅是fe和be的进程，FE和BE都可以单独扩容，并且不依赖其他的共享存储系统，计算节点也可以直接访问本地存储不占用带宽资源 那么我们为什么要进行存算分离呢？ 有以下几点原因：  首先低成本和资源弹性：  计算和存储的资源解绑了，可以单独对一部分进行扩容 根">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/doris3.0/image.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-1.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-4.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-5.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-6.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-7.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-8.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-9.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-10.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-2.png">
+<meta property="og:image" content="http://example.com/images/doris3.0/image-3.png">
+<meta property="article:published_time" content="2024-11-07T09:27:32.000Z">
+<meta property="article:modified_time" content="2024-12-10T14:34:48.712Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="doris">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/doris3.0/image.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            doris3.0特性 -
+        
+        The Republic
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-kw83d7_3840x2400-light.webp","dark":"/images/wallhaven-4oy7jl_3840x2400-dark.webp"},"title":"Baymax The Republic","subtitle":{"text":["There is only one heroism in the world: to see the world as it is and to love it."],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.6.3","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        The Republic
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({loop: true})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [40,0],
+                translateZ: 0,
+                opacity: [0,1],
+                filter: ['blur(5px)', 'blur(0px)'], // Starting from blurred to unblurred
+                easing: "easeOutExpo",
+                duration: 1400,
+                delay: (el, i) => 300 + 30 * i,
+            }).add({
+                targets: '.ml13 .letter',
+                translateY: [0,-40],
+                opacity: [1,0],
+                filter: ['blur(0px)', 'blur(5px)'], // Ending from unblurred to blurred
+                easing: "easeInExpo",
+                duration: 1200,
+                delay: (el, i) => 100 + 30 * i,
+                complete: function() {
+                    hidePreloader(); // Call hidePreloader after the animation completes
+                }
+            });
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+
+    <div class="navbar-content ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                The Republic
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-screen w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">1</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">2</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">2</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                <div class="w-full flex items-center pt-6 justify-start">
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">doris3.0特性</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/logo.jpg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">Baymax</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-11-07 17:27:32</span>
+        <span class="mobile">2024-11-07 17:27:32</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-12-10 22:34:48</span>
+            <span class="mobile">2024-12-10 22:34:48</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/doris/">doris</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/doris/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/doris/">doris</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <h1 id="doris3-0特性"><a href="#doris3-0特性" class="headerlink" title="doris3.0特性"></a>doris3.0特性</h1><h2 id="Doris-3-0-面向云原生的湖仓一体解决方案"><a href="#Doris-3-0-面向云原生的湖仓一体解决方案" class="headerlink" title="Doris 3.0 面向云原生的湖仓一体解决方案"></a>Doris 3.0 面向云原生的湖仓一体解决方案</h2><h3 id="从存算一体到存算分离"><a href="#从存算一体到存算分离" class="headerlink" title="从存算一体到存算分离"></a>从存算一体到存算分离</h3><p>之前版本的doris的架构师存算一体的架构，部署简单，仅仅是fe和be的进程，FE和BE都可以单独扩容，并且不依赖其他的共享存储系统，计算节点也可以直接访问本地存储不占用带宽资源</p>
+<p>那么我们为什么要进行存算分离呢？</p>
+<p>有以下几点原因：</p>
+<ol>
+<li><p>首先低成本和资源弹性：</p>
+<ul>
+<li>计算和存储的资源解绑了，可以单独对一部分进行扩容</li>
+<li>根据计算资源更好的能分辨出哪些是使用资源多的可以更好的区分开冷热数据，进行设置冷热数据</li>
+<li>可以计算出资源的波峰和波谷</li>
+</ul>
+</li>
+<li><p>负载隔离：</p>
+<ul>
+<li>读写任务隔离</li>
+<li>彻底的业务隔离</li>
+</ul>
+</li>
+<li><p>数据共享</p>
+<ul>
+<li>单一数据可以面对不同的分析任务负载使用</li>
+<li>数据可以快速移动，更快速的备份和恢复，因为计算和存储已经分开了</li>
+</ul>
+</li>
+<li><p>云设备成熟</p>
+<ul>
+<li>可以将存储上云了</li>
+</ul>
+</li>
+</ol>
+<h4 id="存算分离架构"><a href="#存算分离架构" class="headerlink" title="存算分离架构"></a>存算分离架构</h4><h5 id="元数据服务层"><a href="#元数据服务层" class="headerlink" title="元数据服务层"></a>元数据服务层</h5><p>3.0的fe还是保持元数据服务层<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image.png"
+                      alt="alt text"
+                ></p>
+<h5 id="数据存储层"><a href="#数据存储层" class="headerlink" title="数据存储层"></a>数据存储层</h5><p>数据存储层3.0的版本可以更加的节省成本，主要是能够更好的分隔开热存储和冷存储，具体的成本降低多少可以查看图片</p>
+<p>并且对我们存储的热数据可以进行更好的缓存管理，使用了LRU(一种缓存策略)，TTL，缓存预热</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-1.png"
+                      alt="alt text"
+                ></p>
+<h6 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h6><p>这里我们介绍一下LRU，LRU是一种维护了一个数据访问的队列，当数据被访问了就会将这个数据移动到队列的前端，新加入缓存的数据也会移动到队列的前端，当缓存达到上限，队列尾部的数据会被删除</p>
+<h6 id="TTL"><a href="#TTL" class="headerlink" title="TTL"></a>TTL</h6><p>TTL策略是为了保护我们喜欢在本地可以持久化的一些小规模的数据表，对于常驻表我们可以使用设置较长的TTL来保护这个表当缓存空间不足的时候会先淘汰其他数据，设置了TTL的数据先不动</p>
+<p>使用方法：</p>
+<p>在建表的时候可以设置对应的property，该表的数据使用ttl策略进行缓存</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> customer (</span><br><span class="line">  C_CUSTKEY     <span class="type">INTEGER</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  C_NAME        <span class="type">VARCHAR</span>(<span class="number">25</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  C_ADDRESS     <span class="type">VARCHAR</span>(<span class="number">40</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  C_NATIONKEY   <span class="type">INTEGER</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  C_PHONE       <span class="type">CHAR</span>(<span class="number">15</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  C_ACCTBAL     <span class="type">DECIMAL</span>(<span class="number">15</span>,<span class="number">2</span>)   <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  C_MKTSEGMENT  <span class="type">CHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  C_COMMENT     <span class="type">VARCHAR</span>(<span class="number">117</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">)</span><br><span class="line">DUPLICATE KEY(C_CUSTKEY, C_NAME)</span><br><span class="line">DISTRIBUTED <span class="keyword">BY</span> HASH(C_CUSTKEY) BUCKETS <span class="number">32</span></span><br><span class="line">PROPERTIES(</span><br><span class="line">    &quot;file_cache_ttl_seconds&quot;<span class="operator">=</span>&quot;300&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></div>
+<p>这里的配置是设置了缓存时间300s，如果在建表的时候没有指定ttl，我们也可以设置ALTER语句来修改ttl属性</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> customer <span class="keyword">set</span> (&quot;file_cache_ttl_seconds&quot;<span class="operator">=</span>&quot;3000&quot;);</span><br></pre></td></tr></table></figure></div>
+
+
+<h6 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h6><p>存算分离下，doris可以多个计算组进行配置，但是如果新的计算组创建的时候缓存为空，就可能会影响到查询性能。Doris各个计算组内共享数据但是不共享缓存，于是doris支持了缓存预热，可以直接从远端存储主动拉取数据到本地缓存</p>
+<p>举例说明：</p>
+<p>假设在 Doris 中存储了大量的销售数据，每天会进行多次查询分析，以了解某商品的销量趋势和每日交易情况。以下是没有缓存预热和使用缓存预热的对比：</p>
+<p><strong>没有缓存预热的情况：</strong></p>
+<p>查询发起后，Doris 需要从存储层读取商品的每日销量数据，这个过程包含磁盘 I&#x2F;O 操作，耗时较长。<br>用户可能需要等待几秒甚至几分钟，尤其是当数据量非常大时，等待时间会更长。</p>
+<p><strong>使用缓存预热的情况：</strong></p>
+<p>每天凌晨（或其他查询量较低的时段），您可以通过预热将前一天的销售数据加载到 Doris 的缓存中。<br>当早上用户查询时，Doris 可以直接从缓存中读取数据，无需进行磁盘 I&#x2F;O，查询速度会快很多。<br>因为缓存中已经有需要的数据，响应时间可以降低到几毫秒到几秒，大大提升了用户的查询体验</p>
+<p>使用方法：</p>
+<p>目前支持三种缓存预热，下面只介绍最常用的两种:</p>
+<ol>
+<li><p>将表 customer 的数据预热到 将表 customer 的数据预热到 compute_group_name1。</p>
+<p> 执行以下 SQL，可以将该表在远端存储上的数据全部拉取到本地。这里的compute_group_name1是计算组的名字，我们可以执行<code>SHOW COMPUTE GROUPS;</code>来查看有哪些计算分组</p>
+ <div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WARM UP COMPUTE <span class="keyword">GROUP</span> compute_group_name1 <span class="keyword">WITH</span> <span class="keyword">TABLE</span> customer</span><br></pre></td></tr></table></figure></div>
+
+</li>
+<li><p>将表 customer 的分区 p1 的数据预热到 compute_group_name1。</p>
+<p> 执行以下 SQL，可以将该分区在远端存储上的数据全部拉取到本地。</p>
+ <div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WARM UP COMPUTE <span class="keyword">GROUP</span> compute_group_name1 <span class="keyword">WITH</span> <span class="keyword">TABLE</span> customer <span class="keyword">PARTITION</span> p1;</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>这里的预热，可以把sql中的预热记为这个<code>WARM UP</code></p>
+<p>上面的sql会返回一个job id，也就是预热任务的id，我们可以查询预热进度</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> WARM UP JOB <span class="keyword">WHERE</span> ID <span class="operator">=</span> <span class="number">1234</span>;</span><br></pre></td></tr></table></figure></div>
+
+
+<h5 id="数据计算层"><a href="#数据计算层" class="headerlink" title="数据计算层"></a>数据计算层</h5><p>之前的版本中，doris的副本数量是取决于独立ip的个数，但是目前的3.0版本将doris的存储与计算分隔开了，存储可以存储在hdfs或者云端，所以现在数据导入只需要处理单副本数据就可以了，速度更快<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-4.png"
+                      alt="alt text"
+                ></p>
+<h5 id="doris的存算分离的最佳实践"><a href="#doris的存算分离的最佳实践" class="headerlink" title="doris的存算分离的最佳实践"></a>doris的存算分离的最佳实践</h5><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-5.png"
+                      alt="alt text"
+                ></p>
+<p>下面我详细介绍一下这三种存算分离的机制</p>
+<p>在业务上这三种是我们经常使用的机制，由于doris3.0存算分离我们可以将不同的业务场景的计算分隔开都同时写入到一个存储系统中，各个业务场景互不影响更加的高效，更好的资源分隔</p>
+<h6 id="读读隔离"><a href="#读读隔离" class="headerlink" title="读读隔离"></a>读读隔离</h6><p>用途：用于高并发查询和普通查询的隔离。</p>
+<p>架构：</p>
+<p>计算层（Compute Layer）：包含多个计算集群（Cluster A和Cluster B），每个集群中有多个后端节点（BE）和缓存（Cache）。</p>
+<p>共享存储层（Shared Storage Layer）：底层存储使用OSS（对象存储服务）或HDFS（Hadoop分布式文件系统），存储数据以支持计算层的查询请求。</p>
+<p>工作流程：</p>
+<p>高并发查询和普通查询被分配到不同的集群中，如Cluster A用于高并发查询，Cluster B用于普通查询。</p>
+<p>这种分离使得高并发查询和普通查询的资源使用互不干扰，从而提高查询的响应速度和效率。</p>
+<p>优势：</p>
+<p>实现了高优查询和普通查询的隔离，提高了系统的并发能力。</p>
+<p>高并发场景下，能够优化数据访问路径并减少资源争用。</p>
+<h6 id="读写隔离"><a href="#读写隔离" class="headerlink" title="读写隔离"></a>读写隔离</h6><p>用途：实现查询和写入操作的隔离。</p>
+<p>架构：</p>
+<p>计算层同样由两个集群组成（Cluster A和Cluster B），底层的共享存储使用OSS或HDFS。</p>
+<p>工作流程：</p>
+<p>写入操作分配到Cluster B，而查询操作分配到Cluster A。</p>
+<p>数据从存储层加载到各个集群时，会通过预热机制（Warm Up）使得数据提前缓存到内存中，提高读取效率。</p>
+<p>优势：</p>
+<p>查询和写入操作的隔离避免了写入对查询性能的影响。</p>
+<p>预热机制保证了查询时的数据访问速度，使得查询效率进一步提升。</p>
+<p>支持实时同步和自动预热，适合需要实时响应的业务场景。</p>
+<h6 id="写写隔离"><a href="#写写隔离" class="headerlink" title="写写隔离"></a>写写隔离</h6><p>用途：支持高频数据导入和ETL（数据提取、转换和加载）操作的隔离。</p>
+<p>架构：</p>
+<p>两个集群（Cluster A和Cluster B）分别用于不同的写入操作。</p>
+<p>共享存储层同样是OSS或HDFS。</p>
+<p>工作流程：</p>
+<p>Cluster A用于ETL操作，即将数据从外部数据源提取、转换后加载到系统中。</p>
+<p>Cluster B用于批量数据导入（Mini Batch Load），适合高频数据的批量导入。</p>
+<p>优势：</p>
+<p>写写隔离确保了ETL和高频数据导入不会相互影响，提高了数据导入的效率。</p>
+<p>这种分离方式支持同时进行的多种写入操作，特别适合数据更新频繁的场景。</p>
+<h6 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h6><p>存算分离：所有场景下，计算层和存储层都是分离的。共享存储层可以支持不同的计算集群进行读写操作。</p>
+<p>缓存机制：每个集群都有缓存模块，缓存可以显著提高查询的响应速度。</p>
+<p>不同的隔离方式：根据实际业务需求，采用读读隔离、读写隔离和写写隔离策略，实现不同业务场景的优化。</p>
+<h3 id="基于doris构建湖仓一体化的体系"><a href="#基于doris构建湖仓一体化的体系" class="headerlink" title="基于doris构建湖仓一体化的体系"></a>基于doris构建湖仓一体化的体系</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-6.png"
+                      alt="alt text"
+                ></p>
+<h4 id="湖仓一体建设方案"><a href="#湖仓一体建设方案" class="headerlink" title="湖仓一体建设方案"></a>湖仓一体建设方案</h4><h5 id="数据湖透明加速方案"><a href="#数据湖透明加速方案" class="headerlink" title="数据湖透明加速方案"></a>数据湖透明加速方案</h5><p>湖仓一体化构建过程中，在不影响现有业务运行稳定性下，往往只需要通过引入 Apache Doris 做 OLAP 数据查询加速引擎即可完成对数据湖数据的查询加速，主要实现方案为：</p>
+<p>1.利用联邦查询和SQL方言兼容特性，对外构建提供服务的统一查询网关能力，对内构建管控所有异源数据的汇集能力，由内至外实现百川入海。<br>2.利用数据湖 Catalog 能力完成数据查询透明加速能力，以 Hive 为例，先获取 HMS 元数据信息，通过 SQL 解析后将 Doris-SQL 信息转化为 HMS 信息，获取实际 Parquet、Orc 等格式文件的实际存储地址，将文件直接读取加载至 Doris 计算节点内存中，利用向量化引擎、PipelineX等特性完成加速查询，同时还可借助 ComputerNode 节点能力隔离出独享计算资源完成计算，不影响其他业务的正常运行。<br>3.若有频繁查询的结果集，可利用 PartitionCache 将结果集和原始数据缓存至 Doris 集群中，后续再有相关查询即无需通过网络 IO 做二次传输，可加速查询效率。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-7.png"
+                      alt="alt text"
+                ></p>
+<p>通过众多 Doris 用户生产实践反馈得知，在同等数据量、同等查询任务、同等机器资源量以及同等查询并发度的情况下，Doris 跑批任务速度比 Hive 快 8-10 倍，比 Spark 快 2-3 倍。该效率归功于向量化引擎、PipelineX、CBO、智能化分区分桶等各种黑科技的加持。<br>在上述场景的收益比下，湖仓一体化构建方案中还可以借助 Doris 强大的跑批性能完成批任务的加速执行：</p>
+<p>1.通过 Catalog 湖仓联邦能力，可将原有执行任务切换至 Doris 执行，通过 Doris 透明加速能力，完成结果集计算，若有其他维表关联或者异源数据关联计算诉求，可不通过数据同步的方案来具备关联计算的基础条件，直接通过联邦查询能力即可完成，减少数据同步任务的开发量和跑批任务的复杂度。<br>2.当前 Doris 已支持 Hive 数据湖的回写能力，可通过 Doris 完成 Hive 数据湖的计算后，将结果集回写至 Hive 数仓中供其他业务线共享使用。<br>3.切入一部分新实时业务或者离线实时化改造业务直接写入 Doris 实时数仓完成实时业务构建。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-8.png"
+                      alt="alt text"
+                ></p>
+<p>在部分企业实践过程中，比较关注数据的存储成本，往往 Doris 内仅存储过往半年或者一年内的数据，更往前的历史数据都希望在较为低廉的存储系统中进行存储，或者进行科学计算场景的应用。<br>但是在上述诉求下，还希望继续通过 Doris 完成整体的查询，比如季度报表、年度报表等数据，不要求查询效率和内表一样快速，但是要求在业务使用时不再进行查询语句上大幅度的改变，最好是能自动冷备，数据还不冗余存储，查询时可自动路由，那基于上述要求可如下完成方案思路设计：</p>
+<p>1.若希望自动冷热分层至 S3 或者 HDFS 等数据湖存储介质上，可利用 Doris 的冷热分层特性来满足，创建存储介质的 Resource 后，通过给表绑定 Resource 资源，指定 ColdDownTime 或者 TTL 时间，使其自动完成冷备。该方案在查询时无需额外操作，Doris 会自动路由远端数据加载至内存，与热数据一起完成计算。<br>若希望历史数据可参与共享计算，完成科学学习计算等场景的应用，可通过回写 Hive 或者 Export 至 HDFS&#x2F;S3 上，导出为 Parquet、Orc 等公共格式，参与其他场景的共享计算。在查询时，可通过 TVF 或者 Catalog 关联完成数据加载计算。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-9.png"
+                      alt="alt text"
+                ></p>
+<p>在湖仓一体化分层构建方案中，主要有贴源层数据共享使用的诉求，即数据湖是统一数据入口，所有原始明细数据都在数据湖组件中留存一份，其他数据仓库和数据科学计算或者应用都基于该数据完成计算：</p>
+<p>1.利用 Doris 的 Catalog 能力将数据湖中 ODS 层数据根据分层加工逻辑，通过调度任务能力或者异步物化视图能力加工为 DW 层数据，并将该层数据落盘至 Doris 内表中。<br>2.后续通过加工完的 DW 层数据在 Doris 集群内部实现上层数仓构建，可依赖异步物化视图的构建或者任意支持 MySQL 协议的调度平台进行加工，或者使用 DBT 等 ELT 工具来完成上层数仓构建。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-10.png"
+                      alt="alt text"
+                ></p>
+<h3 id="前缀索引和倒排索引"><a href="#前缀索引和倒排索引" class="headerlink" title="前缀索引和倒排索引"></a>前缀索引和倒排索引</h3><p>在搜索doris相关内容的时候发现了doris的倒排索引，虽然不是新特性，是2.0版本的特性，但是还是在这里记一下吧</p>
+<p>复习一下之前doris的前缀索引的内容，</p>
+<p>首先我们在doris中设置了三种聚合模型 Aggregate、Unique 和 Duplicate 。底层的数据存储，是按照各自建表语句中，Aggregate Key、Unique Key 和 Duplicate Key 中指定的列进行排序存储的，我们根据排序键指定查询条件就不用扫全表就可以找到需要处理的数据，在这基础上又引入了前缀索引，前缀索引可以全量在内存缓存，快速定位数据块，大大提升了查询效率。前缀索引的设计是索引项不超过36个字节。</p>
+<p><strong>当遇到 VARCHAR 类型时，前缀索引会直接截断。如果第一列即为 VARCHAR，那么即使没有达到 36 字节，也会直接截断</strong></p>
+<p>所以varchar类型最好放在后面</p>
+<p>比方说我们设计的表的结构是如下这样的：<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-2.png"
+                      alt="alt text"
+                ></p>
+<p>那么前缀索引为：user_id(8 Bytes) + age(4 Bytes) + message(prefix 20 Bytes)。</p>
+<p>如果我们设计的表结构是这样的：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/doris3.0/image-3.png"
+                      alt="alt text"
+                ></p>
+<p>则前缀索引为 user_name(20 Bytes)。即使没有达到 36 个字节，因为遇到 VARCHAR，所以直接截断，不再往后继续。</p>
+<p>如果我们前面设计的表结构有问题了，我们要更改查询的顺序我们就应该设计rollup上卷或者物化视图，具体方法在<strong>doris学习笔记</strong>中</p>
+<p>好的，说完前缀索引下面说倒排索引</p>
+<p>首先需要说一下，这个前缀索引啊，rollup，物化视图啊和这个倒排索引有什么区别</p>
+<p>首先倒排索引特别适用于文本数据或者需要精准匹配的字段，比如查找特定的字符串或者关键词搜索</p>
+<p>rollup是针对表的特定维度进行预聚合，物化视图是根据复杂的查询逻辑进行预计算，适用于聚合查询比较多的场景，需要频繁计算某些统计指标</p>
+<p>总结：</p>
+<p>倒排索引：更适合查询条件中涉及大量过滤的场景，对特定字段的精确匹配查询性能提升明显。<br>Rollup&#x2F;物化视图：适合聚合、汇总类的查询，可以显著提高复杂查询的性能，但适用的查询类型相对固定。</p>
+<p>接着说回倒排索引</p>
+<p>倒排索引可以加速等值、范围、全文检索（关键词匹配、短语系列匹配等）。一个表可以有多个倒排索引，查询时多个倒排索引的条件可以任意组合。</p>
+<p>使用语法：</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> table_name</span><br><span class="line">(</span><br><span class="line">  column_name1 TYPE1,</span><br><span class="line">  column_name2 TYPE2,</span><br><span class="line">  column_name3 TYPE3,</span><br><span class="line">  INDEX idx_name1(column_name1) <span class="keyword">USING</span> INVERTED [PROPERTIES(...)] [COMMENT <span class="string">&#x27;your comment&#x27;</span>],</span><br><span class="line">  INDEX idx_name2(column_name2) <span class="keyword">USING</span> INVERTED [PROPERTIES(...)] [COMMENT <span class="string">&#x27;your comment&#x27;</span>]</span><br><span class="line">)</span><br><span class="line">table_properties;</span><br></pre></td></tr></table></figure></div>
+<p>下面的properties是可选的，是倒排索引的额外属性，目前支持的属性包括指定分词，中文分词，英文分词，指定细粒度的分词还是粗粒度的分词，指定是否支持短语查询加速，指定在分词之前是否对短语文本进行预处理，比如替换调某一个字符，是否对分词进行大小写转换，是否忽略一些停用词，这里具体配置可以查看<a class="link"   target="_blank" rel="noopener" href="https://doris.apache.org/zh-CN/docs/table-design/index/inverted-index/" >https://doris.apache.org/zh-CN/docs/table-design/index/inverted-index/ <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>给已有的表增加倒排索引：</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 语法 1</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_name <span class="keyword">ON</span> table_name(column_name) <span class="keyword">USING</span> INVERTED [PROPERTIES(...)] [COMMENT <span class="string">&#x27;your comment&#x27;</span>];</span><br><span class="line"><span class="comment">-- 语法 2</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">ADD</span> INDEX idx_name(column_name) <span class="keyword">USING</span> INVERTED [PROPERTIES(...)] [COMMENT <span class="string">&#x27;your comment&#x27;</span>];</span><br></pre></td></tr></table></figure></div>
+<p>这两种语法都可以支持创建倒排索引</p>
+<p>在给已经有的表增加了倒排索引之后，我们要对存量数据也添加倒排索引</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 语法 1，默认给全表的所有分区 BUILD INDEX</span></span><br><span class="line">BUILD INDEX index_name <span class="keyword">ON</span> table_name;</span><br><span class="line"><span class="comment">-- 语法 2，可指定 Partition，可指定一个或多个</span></span><br><span class="line">BUILD INDEX index_name <span class="keyword">ON</span> table_name PARTITIONS(partition_name1, partition_name2);</span><br></pre></td></tr></table></figure></div>
+
+<p>那么我们怎么使用倒排索引来进行加速查询呢，详细见下面的示例：</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 全文检索关键词匹配，通过 MATCH_ANY MATCH_ALL 完成</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> column_name MATCH_ANY <span class="operator">|</span> MATCH_ALL <span class="string">&#x27;keyword1 ...&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 1.1 content 列中包含 keyword1 的行</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_ANY <span class="string">&#x27;keyword1&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 1.2 content 列中包含 keyword1 或者 keyword2 的行，后面还可以添加多个 keyword</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_ANY <span class="string">&#x27;keyword1 keyword2&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 1.3 content 列中同时包含 keyword1 和 keyword2 的行，后面还可以添加多个 keyword</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_ALL <span class="string">&#x27;keyword1 keyword2&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 全文检索短语匹配，通过 MATCH_PHRASE 完成</span></span><br><span class="line"><span class="comment">-- 2.1 content 列中同时包含 keyword1 和 keyword2 的行，而且 keyword2 必须紧跟在 keyword1 后面</span></span><br><span class="line"><span class="comment">-- &#x27;keyword1 keyword2&#x27;，&#x27;wordx keyword1 keyword2&#x27;，&#x27;wordx keyword1 keyword2 wordy&#x27; 能匹配，因为他们都包含keyword1 keyword2，而且keyword2 紧跟在 keyword1 后面</span></span><br><span class="line"><span class="comment">-- &#x27;keyword1 wordx keyword2&#x27; 不能匹配，因为 keyword1 keyword2 之间隔了一个词 wordx</span></span><br><span class="line"><span class="comment">-- &#x27;keyword2 keyword1&#x27;，因为 keyword1 keyword2 的顺序反了</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_PHRASE <span class="string">&#x27;keyword1 keyword2&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2.2 content 列中同时包含 keyword1 和 keyword2 的行，而且 keyword1 keyword2 的 `词距`（slop） 不超过3</span></span><br><span class="line"><span class="comment">-- &#x27;keyword1 keyword2&#x27;, &#x27;keyword1 a keyword2&#x27;, &#x27;keyword1 a b c keyword2&#x27; 都能匹配，因为keyword1 keyword2中间隔的词分别是0 1 3 都不超过3</span></span><br><span class="line"><span class="comment">-- &#x27;keyword1 a b c d keyword2&#x27; 不能能匹配，因为keyword1 keyword2中间隔的词有4个，超过3</span></span><br><span class="line"><span class="comment">-- &#x27;keyword2 keyword1&#x27;, &#x27;keyword2 a keyword1&#x27;, &#x27;keyword2 a b c keyword1&#x27; 也能匹配，因为指定 slop &gt; 0 时不再要求keyword1 keyword2 的顺序。这个行为参考了 ES，与直觉的预期不一样，因此 Doris 提供了在 slop 后面指定正数符号（+）表示需要保持 keyword1 keyword2 的先后顺序</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_PHRASE <span class="string">&#x27;keyword1 keyword2 ~3&#x27;</span>;</span><br><span class="line"><span class="comment">-- slop 指定正号，&#x27;keyword1 a b c keyword2&#x27; 能匹配，而 &#x27;keyword2 a b c keyword1&#x27; 不能匹配</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_PHRASE <span class="string">&#x27;keyword1 keyword2 ~3+&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2.3 在保持词顺序的前提下，对最后一个词keyword2做前缀匹配，默认找50个前缀词（session变量inverted_index_max_expansions控制）</span></span><br><span class="line"><span class="comment">-- &#x27;keyword1 keyword2abc&#x27; 能匹配，因为keyword1完全一样，最后一个 keyword2abc 是 keyword2 的前缀</span></span><br><span class="line"><span class="comment">-- &#x27;keyword1 keyword2&#x27; 也能匹配，因为 keyword2 也是 keyword2 的前缀</span></span><br><span class="line"><span class="comment">-- &#x27;keyword1 keyword3&#x27; 不能匹配，因为 keyword3 不是 keyword2 的前缀</span></span><br><span class="line"><span class="comment">-- &#x27;keyword1 keyword3abc&#x27; 也不能匹配，因为 keyword3abc 也不是 keyword2 的前缀</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_PHRASE_PREFIX <span class="string">&#x27;keyword1 keyword2&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2.4 如果只填一个词会退化为前缀查询，默认找50个前缀词（session变量inverted_index_max_expansions控制）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_PHRASE_PREFIX <span class="string">&#x27;keyword1&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2.5 对分词后的词进行正则匹配，默认匹配50个（session变量inverted_index_max_expansions控制）</span></span><br><span class="line"><span class="comment">-- 类似 MATCH_PHRASE_PREFIX 的匹配规则，只是前缀变成了正则</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> content MATCH_REGEXP <span class="string">&#x27;key*&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 普通等值、范围、IN、NOT IN，正常的 SQL 语句即可，例如</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">123</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> ts <span class="operator">&gt;</span> <span class="string">&#x27;2023-01-01 00:00:00&#x27;</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> op_type <span class="keyword">IN</span> (<span class="string">&#x27;add&#x27;</span>, <span class="string">&#x27;delete&#x27;</span>);</span><br></pre></td></tr></table></figure></div>
+
+<p>如果我们要检查一下分词的实际效果或者只是对一段文本有一次的分词行为，那么我们就可以使用分词函数<code>TOKENIZE</code>来测试</p>
+<p>TOKENIZE 函数的第一个参数是待分词的文本，第二个参数是创建索引指定的分词参数。</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SELECT</span> TOKENIZE(<span class="string">&#x27;武汉长江大桥&#x27;</span>,<span class="string">&#x27;&quot;parser&quot;=&quot;chinese&quot;,&quot;parser_mode&quot;=&quot;fine_grained&quot;&#x27;</span>);</span><br><span class="line"><span class="operator">+</span><span class="comment">-----------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> tokenize(<span class="string">&#x27;武汉长江大桥&#x27;</span>, <span class="string">&#x27;&quot;parser&quot;=&quot;chinese&quot;,&quot;parser_mode&quot;=&quot;fine_grained&quot;&#x27;</span>)       <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">-----------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> [&quot;武汉&quot;, &quot;武汉长江大桥&quot;, &quot;长江&quot;, &quot;长江大桥&quot;, &quot;大桥&quot;]                              <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">-----------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.02</span> sec)</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SELECT</span> TOKENIZE(<span class="string">&#x27;武汉市长江大桥&#x27;</span>,<span class="string">&#x27;&quot;parser&quot;=&quot;chinese&quot;,&quot;parser_mode&quot;=&quot;fine_grained&quot;&#x27;</span>);</span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> tokenize(<span class="string">&#x27;武汉市长江大桥&#x27;</span>, <span class="string">&#x27;&quot;parser&quot;=&quot;chinese&quot;,&quot;parser_mode&quot;=&quot;fine_grained&quot;&#x27;</span>)        <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> [&quot;武汉&quot;, &quot;武汉市&quot;, &quot;市长&quot;, &quot;长江&quot;, &quot;长江大桥&quot;, &quot;大桥&quot;]                               <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.02</span> sec)</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SELECT</span> TOKENIZE(<span class="string">&#x27;武汉市长江大桥&#x27;</span>,<span class="string">&#x27;&quot;parser&quot;=&quot;chinese&quot;,&quot;parser_mode&quot;=&quot;coarse_grained&quot;&#x27;</span>);</span><br><span class="line"><span class="operator">+</span><span class="comment">----------------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> tokenize(<span class="string">&#x27;武汉市长江大桥&#x27;</span>, <span class="string">&#x27;&quot;parser&quot;=&quot;chinese&quot;,&quot;parser_mode&quot;=&quot;coarse_grained&quot;&#x27;</span>)        <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">----------------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> [&quot;武汉市&quot;, &quot;长江大桥&quot;]                                                                 <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">----------------------------------------------------------------------------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.02</span> sec)</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SELECT</span> TOKENIZE(<span class="string">&#x27;I love CHINA&#x27;</span>,<span class="string">&#x27;&quot;parser&quot;=&quot;english&quot;&#x27;</span>);</span><br><span class="line"><span class="operator">+</span><span class="comment">------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> tokenize(<span class="string">&#x27;I love CHINA&#x27;</span>, <span class="string">&#x27;&quot;parser&quot;=&quot;english&quot;&#x27;</span>) <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> [&quot;i&quot;, &quot;love&quot;, &quot;china&quot;]                         <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">------------------------------------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.02</span> sec)</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SELECT</span> TOKENIZE(<span class="string">&#x27;I love CHINA 我爱我的祖国&#x27;</span>,<span class="string">&#x27;&quot;parser&quot;=&quot;unicode&quot;&#x27;</span>);</span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> tokenize(<span class="string">&#x27;I love CHINA 我爱我的祖国&#x27;</span>, <span class="string">&#x27;&quot;parser&quot;=&quot;unicode&quot;&#x27;</span>)       <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------------------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> [&quot;i&quot;, &quot;love&quot;, &quot;china&quot;, &quot;我&quot;, &quot;爱&quot;, &quot;我&quot;, &quot;的&quot;, &quot;祖&quot;, &quot;国&quot;]        <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------------------------------------------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.02</span> sec)</span><br></pre></td></tr></table></figure></div>
+
+<p>具体还有更加详细的案例在官网上，对于更加详细的案例就不做过多介绍，详见官网，下面附上官网文档地址</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://doris.apache.org/zh-CN/docs/table-design/index/inverted-index/#%E5%88%A9%E7%94%A8%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%8A%A0%E9%80%9F%E6%9F%A5%E8%AF%A2" >https://doris.apache.org/zh-CN/docs/table-design/index/inverted-index/#%E5%88%A9%E7%94%A8%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%8A%A0%E9%80%9F%E6%9F%A5%E8%AF%A2 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> doris3.0特性</li>
+        <li><strong>Author:</strong> Baymax</li>
+        <li><strong>Created at
+                :</strong> 2024-11-07 17:27:32</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-12-10 22:34:48
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2024/11/07/doris3-0特性/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/doris/">#doris</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2024/06/04/hello-world/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Hello World</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">doris3.0特性</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#doris3-0%E7%89%B9%E6%80%A7"><span class="nav-text">doris3.0特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Doris-3-0-%E9%9D%A2%E5%90%91%E4%BA%91%E5%8E%9F%E7%94%9F%E7%9A%84%E6%B9%96%E4%BB%93%E4%B8%80%E4%BD%93%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">Doris 3.0 面向云原生的湖仓一体解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E5%AD%98%E7%AE%97%E4%B8%80%E4%BD%93%E5%88%B0%E5%AD%98%E7%AE%97%E5%88%86%E7%A6%BB"><span class="nav-text">从存算一体到存算分离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Edoris%E6%9E%84%E5%BB%BA%E6%B9%96%E4%BB%93%E4%B8%80%E4%BD%93%E5%8C%96%E7%9A%84%E4%BD%93%E7%B3%BB"><span class="nav-text">基于doris构建湖仓一体化的体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95%E5%92%8C%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="nav-text">前缀索引和倒排索引</span></a></li></ol></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Baymax</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        2 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.6.3</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
